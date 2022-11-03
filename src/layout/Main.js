@@ -18,7 +18,7 @@ class Main extends Component {
   searchMovies = (search, type = "all") => {
     this.setState({ loading: true });
     fetch(
-      `http://www.omdbapi.com/?apikey=${API_KEY}&s=${search}${
+      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${search}${
         type !== "all" ? `&type=${type}` : ""
       }`
     )
@@ -29,6 +29,10 @@ class Main extends Component {
         } else {
           this.setState({ movies: [], loading: false });
         }
+      })
+      .catch((err) => {
+        console.erro(err);
+        this.setState({ loading: false });
       });
   };
 
