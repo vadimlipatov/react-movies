@@ -1,95 +1,97 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-class Search extends Component {
-  state = {
-    search: "",
-    type: "all",
+const Search = (props) => {
+  // state = {
+  //   search: "",
+  //   type: "all",
+  // };
+  const [search, setSearch] = useState("");
+  const [type, setType] = useState("all");
+
+  const onChangeInputHandler = (e) => {
+    // this.setState({ search: e.target.value });
+    setSearch(e.target.value);
   };
 
-  onChangeInputHandler = (e) => {
-    this.setState({ search: e.target.value });
+  const onChangeRadioHandler = (e) => {
+    // this.setState({ type: e.target.dataset.type });
+    setType(e.target.dataset.type);
   };
 
-  onChangeRadioHandler = (e) => {
-    this.setState({ type: e.target.dataset.type });
-  };
-
-  onKeyDownHandler = (e) => {
+  const onKeyDownHandler = (e) => {
     if (e.code === "Enter") {
-      this.handleFilter();
+      handleFilter();
     }
   };
 
-  handleFilter = () => {
-    this.props.searchMovies(this.state.search, this.state.type);
+  const handleFilter = () => {
+    props.searchMovies(search, type);
   };
 
-  render() {
-    return (
-      <div className="row">
-        <div className="input-field col s12">
-          <input
-            placeholder="search"
-            value={this.state.search}
-            id="search"
-            type="search"
-            className="validate"
-            onChange={this.onChangeInputHandler}
-            onKeyDown={this.onKeyDownHandler}
-          />
-          <button
-            onClick={this.handleFilter}
-            className="btn btn-small waves-effect waves-light search-btn"
-            type="submit"
-            name="action"
-          >
-            Search
-          </button>
-        </div>
-        <div className="radios col s12">
-          <p>
-            <label>
-              <input
-                data-type="all"
-                class="with-gap"
-                name="type"
-                type="radio"
-                checked={this.state.type === "all"}
-                onChange={this.onChangeRadioHandler}
-              />
-              <span>All</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input
-                class="with-gap"
-                data-type="movie"
-                name="type"
-                type="radio"
-                checked={this.state.type === "movie"}
-                onChange={this.onChangeRadioHandler}
-              />
-              <span>Movies</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input
-                class="with-gap"
-                name="type"
-                type="radio"
-                data-type="series"
-                checked={this.state.type === "series"}
-                onChange={this.onChangeRadioHandler}
-              />
-              <span>Series</span>
-            </label>
-          </p>
-        </div>
+  return (
+    <div className="row">
+      <div className="input-field col s12">
+        <input
+          placeholder="search"
+          value={search}
+          id="search"
+          type="search"
+          className="validate"
+          onChange={onChangeInputHandler}
+          onKeyDown={onKeyDownHandler}
+        />
+        <button
+          onClick={handleFilter}
+          className="btn btn-small waves-effect waves-light search-btn"
+          type="submit"
+          name="action"
+        >
+          Search
+        </button>
       </div>
-    );
-  }
-}
+      <div className="radios col s12">
+        <p>
+          <label>
+            <input
+              data-type="all"
+              class="with-gap"
+              name="type"
+              type="radio"
+              checked={type === "all"}
+              onChange={onChangeRadioHandler}
+            />
+            <span>All</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input
+              class="with-gap"
+              data-type="movie"
+              name="type"
+              type="radio"
+              checked={type === "movie"}
+              onChange={onChangeRadioHandler}
+            />
+            <span>Movies</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input
+              class="with-gap"
+              name="type"
+              type="radio"
+              data-type="series"
+              checked={type === "series"}
+              onChange={onChangeRadioHandler}
+            />
+            <span>Series</span>
+          </label>
+        </p>
+      </div>
+    </div>
+  );
+};
 
 export default Search;

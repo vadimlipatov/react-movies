@@ -37,3 +37,7 @@ body {
 .radios > p:last-child {
   margin-right: 0;
 }
+.wrapper {
+  margin: 0 auto;
+  text-align: center;
+}

@@ -1,22 +1,21 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Movies from "../components/Movies";
 import Search from "../components/Search";
 import Preloader from "../components/Preloader";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-class Main extends Component {
-  state = {
-    movies: [],
-    loading: true,
-  };
+const Main = () => {
+  // state = {
+  //   movies: [],
+  //   loading: true,
+  // };
 
-  componentDidMount() {
-    this.searchMovies("matrix");
-  }
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  searchMovies = (search, type = "all") => {
-    this.setState({ loading: true });
+  const searchMovies = (search = "matrix", type = "all") => {
+    setLoading(true);
     fetch(
       `https://www.omdbapi.com/?apikey=${API_KEY}&s=${search}${
         type !== "all" ? `&type=${type}` : ""
@@ -25,27 +24,37 @@ class Main extends Component {
       .then((res) => res.json())
       .then((response) => {
         if (response.Response === "True") {
-          this.setState({ movies: response.Search, loading: false });
+          // this.setState({ movies: response.Search, loading: false });
+          setLoading(false);
+          setMovies(response.Search);
         } else {
-          this.setState({ movies: [], loading: false });
+          // this.setState({ movies: [], loading: false });
+          setLoading(false);
+          setMovies([]);
         }
       })
       .catch((err) => {
-        console.erro(err);
-        this.setState({ loading: false });
+        console.error(err);
+        // this.setState({ loading: false });
+        setLoading(false);
       });
   };
 
-  render() {
-    const { movies, loading } = this.state;
-    return (
-      <main className="content container">
-        <Search searchMovies={this.searchMovies} />
+  useEffect(() => {
+    searchMovies();
+  }, []);
 
-        {!loading ? <Movies movies={movies} /> : <Preloader />}
-      </main>
-    );
-  }
-}
+  // componentDidMount() {
+  //   this.searchMovies("matrix");
+  // }
+
+  return (
+    <main className="content container">
+      <Search searchMovies={searchMovies} />
+
+      {!loading ? <Movies movies={movies} /> : <Preloader />}
+    </main>
+  );
+};
 
 export default Main;

@@ -6,6 +6,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 OMDb API
 
-### CSS Framework
+### CSS Framework Materialize
 
 https://materializecss.com/
